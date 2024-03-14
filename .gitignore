@@ -3,3 +3,4 @@ node_modules
 dist
 leveldb/*
 ```
+src/example/.DS_Store
