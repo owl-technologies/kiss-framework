@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kiss Framework Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+  </head>
+  <body>
+    <ion-app>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Kiss Framework Example</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-grid>
+          <ion-row>
+            <!-- PDF File -->
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Secrets of the universe</ion-card-title>
+                  <ion-card-subtitle>Course 2. Semester 1</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <object data="/get?cid=bafkreie3nw7ha5dzvad3bygubx57nt3nady7vas2eyvbx7v6gjco5a2t6i" width="800" height="500"></object>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <!-- File List-->
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Files</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-list>
+                  </ion-list>
+                  <script>
+                    var files = [];
+                    async function loadFiles() {
+                      const response = await fetch('http://localhost:3000/list');
+                      files = await response.json();
+                  
+                      const list = document.querySelector('ion-list');
+                      list.innerHTML = ''; // Clear the list
+                  
+                      files.forEach(file => {
+                        const item = document.createElement('ion-item');
+                        const label = document.createElement('ion-label');
+                        label.textContent = file.name;
+                        item.appendChild(label);
+                        list.appendChild(item);
+                      });
+                    }
+                    // Call loadFiles when the page loads
+                    window.addEventListener('DOMContentLoaded', loadFiles);
+                  </script>
+                </ion-card-content>
+              </ion-card>
+              <!-- Upload File Drop Region -->
+              <script>
+                async function uploadFile(ev) {
+                  console.log("File(s) dropped");
+
+                  // Prevent default behavior (Prevent file from being opened)
+                  ev.preventDefault();
+
+                  let formData = new FormData();
+
+                  if (ev.dataTransfer) {
+                    // Use DataTransferItemList interface to access the file(s)
+                    for (let i = 0; i < ev.dataTransfer.items.length; i++) {
+                      // If dropped items aren't files, reject them
+                      if (ev.dataTransfer.items[i].kind === "file") {
+                        let file = ev.dataTransfer.items[i].getAsFile();
+                        console.log("... file[" + i + "].name = " + file.name);
+                        formData.append("file-upload", file);
+                      }
+                    }
+                  } else {
+                    // Get the file from the file input element
+                    let fileInput = document.getElementById("file-upload");
+                    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                      let file = fileInput.files[0];
+                      console.log("... file.name = " + file.name);
+                      formData.append("file-upload", file);
+                    } else {
+                      console.log("No file selected");
+                      return;
+                    }
+                  }
+
+                  // Send a POST request to the /add endpoint
+                  const response = await fetch("/add", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                      "ownerId": "Rosca",
+                      "filename": "Secrets of the universe " + (files.length + 1),
+                    },
+                  });
+
+                  const result = await response.json();
+                  console.log(result);
+                }
+              </script>
+              <style>
+                #drop-zone {
+                  border: 2px dashed blue;
+                  padding: 10px;
+                  text-align: center;
+                }
+              </style>
+              <form id="upload-form" action="/add" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); uploadFile(event);">
+                <ion-card id="drop-zone" ondrop="uploadFile(event);" ondragover="event.preventDefault();">
+                  <ion-card-header>
+                    <ion-card-title>Drop Files Here</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <input type="file" id="file-upload" name="file-upload" accept="application/pdf"></input>
+                    <ion-button expand="full" type="submit" color="primary">Upload</ion-button>
+                  </ion-card-content>
+                </ion-card>
+              </form>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ion-app>
+  </body>
+</html>
