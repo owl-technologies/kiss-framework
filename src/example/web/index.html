@@ -55,8 +55,13 @@
                         const label = document.createElement('ion-label');
                         label.textContent = file.name;
                         item.appendChild(label);
+                        item.onclick = () => selectFile(file);
                         list.appendChild(item);
                       });
+                    }
+                    function selectFile(file) {
+                      const object = document.querySelector('object');
+                      object.data = '/get?cid=' + file.content['/'];
                     }
                     // Call loadFiles when the page loads
                     window.addEventListener('DOMContentLoaded', loadFiles);
