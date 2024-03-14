@@ -1,6 +1,7 @@
 Framework to keep the server-side source code simple
 
 > npm i
+
 > npm start
 
 If all goes well, you can see the exple application as follows:
