@@ -9,4 +9,5 @@ To get started via example:
 
 If all goes well, you should see the example application as follows:
 
-<img width="952" alt="Screenshot 2024-03-14 at 17 03 48" src="https://github.com/owl-technologies/kiss-framework/assets/64410585/858ec190-8346-4bb9-bd69-3730a405e054">
+
+<img width="952" alt="Screenshot 2024-03-24 at 17 44 43" src="https://github.com/owl-technologies/kiss-framework/assets/64410585/ed3b2a03-2094-4970-9221-036000b3437a">
