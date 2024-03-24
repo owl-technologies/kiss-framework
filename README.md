@@ -1,7 +1,10 @@
 Framework to keep the server-side source code simple
 
-> npm i
+To install:
+> npm i kiss-framework
 
+To get started via example:
+> npm i kiss-example
 > npm start
 
 If all goes well, you should see the example application as follows:
