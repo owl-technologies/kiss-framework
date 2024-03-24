@@ -3,6 +3,12 @@ import { base } from "./base-x.js";
 const base2 = base('01')
 const base32rfc4648 = base('abcdefghijklmnopqrstuvwxyz234567');
 
+/**
+ * Calculate the dag-json CID of an object. Exclusively for dag-json objects.
+ * 
+ * @param obj any json object
+ * @returns string CIDv2
+ */
 export const calculateCID = async (obj: any): Promise<string> => {
     const serialized = (typeof obj === 'string') ? obj : JSON.stringify(obj);
     const encoder = new TextEncoder();
