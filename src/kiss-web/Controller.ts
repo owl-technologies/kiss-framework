@@ -84,11 +84,11 @@ export class KissServer {
                         const routes = metadata.getArray(<Constructor<any>>topLvlExport, ROUTES_KEY) as { httpMethod: HttpTypes | "ws", wrappedName: string | symbol }[];
 
                         for (let route of routes) {
-                            const w = ctr[route.wrappedName]; //.bind(ctr) bind does not work with decorators :(
+                            const w = ctr[route.wrappedName] as Function; //.bind(ctr) bind does not work with decorators :(
                             if (w) {
                                 //add filename to relPath
                                 //remove suffix controller.ts
-                                const routePath = (relPath === '/' ? relPath : relPath + '/') + entry.name.replace(/\.controller\.(t|j)s$/, '');
+                                const routePath = (relPath === '/' ? relPath : relPath + '/') + entry.name.split(".")[0];
                                 if (route.httpMethod === "ws") {
                                     this.server.on("upgrade", ((req, s, head) => {
                                         console.log(`-----------Websocket upgrade request for ${routePath}---------------`);
@@ -108,7 +108,7 @@ export class KissServer {
                                     }).bind(this));
                                     // ws(routePath, (ws, req) => w(ctr, ws, req));
                                 } else {
-                                    this.app[route.httpMethod](routePath, (req, res, next) => w(ctr, req, res, next));
+                                    this.app[route.httpMethod](routePath, (req, res, next) => w.call(ctr, req, res, next));
                                 }
                                 console.log(
                                     `Registered - ${routePath}:${route.httpMethod} to ${orgClass}.${String(route.wrappedName)}()`

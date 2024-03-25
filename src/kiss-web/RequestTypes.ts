@@ -16,37 +16,36 @@ const httpMethodDeclarator = (
     const routes = metadata.getArray(context, ROUTES_KEY) as { httpMethod: HttpTypes, wrappedName: string | symbol }[];
     if (!routes) throw new Error(`routes metadata not found for ${String(context.name)}`);
     routes.push({ httpMethod, wrappedName: context.name });
-    return (...args) => {
-      // signale.debug(`**Executing ${httpMethod}:${context.name}(${decoratorArgs.length}-args), this: ${this} dis: ${args[0]}, type: {Object.getPrototypeOf(args[0])?._originalClass} `);
-      const dis = args[0];
-      const req: Request = args[1];
-      const res: Response = args[2];
-      const next: Function = args[3];
+    return function (this, req: Request, res: Response, next: Function, ...args) {
       const newArgs: any = []
       let responseInMethod = false; //If response is handled by the method do not do res.send()
       decoratorArgs.forEach((param) => {
-        if (param === Request) {
-          newArgs.push(req);
-        } else if (param === Response) {
-          newArgs.push(res);
-          responseInMethod = true;
-        } else { // url param
-          // signale.star(`param: ${param}, req.params: ${JSON.stringify(req.params)}`);
-          if (httpMethod === "get") {
-            newArgs.push(req.query[param]);
-          } else if (httpMethod === "post") {
-            // check if request url has the parameter, otherwise try to get it from the body
-            if (req.params[param]) {
-              newArgs.push(req.params[param]);
-            } else {
-              newArgs.push(req.body[param]);
+        switch (param) {
+          case Request:
+            newArgs.push(req);
+            break;
+          case Response:
+            newArgs.push(res);
+            responseInMethod = true;
+            break;
+          default:
+            if (typeof param === "string" || typeof param === "number") { // url param
+              if (httpMethod === "get") {
+                newArgs.push(req.query[param]);
+              } else if (httpMethod === "post") {
+                // check if request url has the parameter, otherwise try to get it from the body
+                if (req.params[param]) {
+                  newArgs.push(req.params[param]);
+                } else {
+                  newArgs.push(req.body[param]);
+                }
+              }
             }
-          }
         }
       })
-      args.length > 4 && newArgs.push(...args.slice(4)); // push any additional arguments from other decorators
+      newArgs.push(...args);
       try {
-        const result = method.apply(dis, newArgs);
+        const result = method.apply(this, newArgs);
         if (result instanceof Promise) { // make sure to call res.send() and next() after the promise is resolved
           return result.then((r) => {
             r && !responseInMethod && res.send(r);
