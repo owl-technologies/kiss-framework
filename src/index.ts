@@ -5,7 +5,7 @@ export { Min } from "./kiss-data/decorators/min.js";
 export { Optional } from "./kiss-data/decorators/optional.js";
 export { RejectAfter } from "./kiss-data/decorators/reject-after.js";
 export { Required } from "./kiss-data/decorators/required.js";
-export { Constructor, ConstructorOrFunction, Delta, OpLink } from "./kiss-data/decorators/types.js";
+export { Constructor, ConstructorOrFunction, Delta, OpLink, SearchableById, SearchableByName } from "./kiss-data/decorators/types.js";
 export { CidLink } from "./kiss-data/initializers/cid-link.js";
 export { GetSetCid, GetSetCidArray, InitCid, InitCidArray } from "./kiss-data/initializers/init-cid.js";
 export { GetSetJson, GetSetJsonArray, InitJson, InitJsonArray } from "./kiss-data/initializers/init-json.js";
@@ -23,4 +23,3 @@ export { isConstructor } from "./utils/is-constructor.js";
 export { describe, expect, it, test } from "./utils/not-jest.js";
 export { metadata } from "./utils/reflect-metadata.js";
 export { tictoc } from "./utils/tic-toc.js";
-
