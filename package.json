@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -17,7 +17,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:esm": "tsc; webpack --config webpack.config.cjs",
     "prestart": "npm run build",
     "start": "node ./dist/example/start-server.js",
     "test": "tsc; node ./dist/tests/kiss-data.test.js",
@@ -46,7 +45,6 @@
     "express": "^4.19.1",
     "ts-loader": "^9.5.1",
     "webpack": "^5.91.0",
-    "webpack-bundle-analyzer": "^4.10.1",
-    "ws": "^8.16.0"
+    "webpack-bundle-analyzer": "^4.10.1"
   }
 }
