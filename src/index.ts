@@ -11,7 +11,7 @@ export { GetSetCid, GetSetCidArray, InitCid, InitCidArray } from "./kiss-data/in
 export { GetSetJson, GetSetJsonArray, InitJson, InitJsonArray } from "./kiss-data/initializers/init-json.js";
 export { GetSetById, GetSetByIdArray, GetSetByName, GetSetByNameArray, InitById, InitByIdArray, InitByName, InitByNameArray } from "./kiss-data/initializers/init-server-link.js";
 export { OpServerLink } from "./kiss-data/initializers/server-link.js";
-export { CURRENT_VERSION, KissData, RegisterMigrate, CURRENT_VERSION as version } from "./kiss-data/kiss-data.js";
+export { CURRENT_VERSION, FIELD_METADATA, KissData, RegisterMigrate, CURRENT_VERSION as version } from "./kiss-data/kiss-data.js";
 export { Controller, KissServer } from "./kiss-web/Controller.js";
 export { Get, Post } from "./kiss-web/RequestTypes.js";
 export { Service } from "./kiss-web/Service.js";

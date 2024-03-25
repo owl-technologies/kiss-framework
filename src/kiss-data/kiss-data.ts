@@ -62,13 +62,13 @@ export abstract class KissData<T = any> {
         // try to migrate the data to the current version
         const migrate = metadata.getFunction(this, MIGRATE_METADATA);
         if (!migrate) {
-          throw new Error(`metadata not defined for ${this.constructor.name}`)
+          throw new Error(`metadata not defined for ${this.constructor?.name}`)
         } else {
           from = migrate(from);
         }
         // if the data is not migrated, throw an error
         if (!from || from['protocol-version'] !== CURRENT_VERSION) {
-          throw new Error(`Protocol version ${from ?? from['protocol-version']} is not supported by ${this.constructor.name}`);
+          throw new Error(`Protocol version ${from ?? from['protocol-version']} is not supported by ${this.constructor?.name}`);
         }
       }
       this['protocol-version'] = from['protocol-version'];
@@ -104,7 +104,7 @@ export abstract class KissData<T = any> {
             case fieldMeta?.optional && this[key] === undefined:
               return obj;
             case fieldMeta?.required && this[key] === undefined:
-              throw new Error(`Required field ${this.constructor.name}.${String(key)} is not set, cannot serialize`);
+              throw new Error(`Required field ${this.constructor?.name}.${String(key)} is not set, cannot serialize`);
             // If the property has a toJSON method, call it
             case this[key]?.toJSON && this[key]?.toJSON instanceof Function:
               // console.debug(`Serializing field toJSON ${this.constructor.name}.${key}`);
@@ -143,6 +143,6 @@ export abstract class KissData<T = any> {
    */
   @RegisterMigrate
   migrate<T>(from: T): T {
-    throw Error(`Migrating ${this.constructor.name} from ${from['protocol-version']} to ${CURRENT_VERSION} is not implemented`)
+    throw Error(`Migrating ${this.constructor?.name} from ${from['protocol-version']} to ${CURRENT_VERSION} is not implemented`)
   }
 }
