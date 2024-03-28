@@ -4,6 +4,7 @@ import { Server } from "http";
 import https from "https";
 import path from "path";
 import { WebSocketServer } from 'ws';
+import { colors } from "../index.js";
 import { Constructor } from "../kiss-data/decorators/types.js";
 import { isConstructor } from "../utils/is-constructor.js";
 import { metadata } from "../utils/reflect-metadata.js";
@@ -88,7 +89,7 @@ export class KissServer {
                             if (w) {
                                 //add filename to relPath
                                 //remove suffix controller.ts
-                                const routePath = (relPath === '/' ? relPath : relPath + '/') + entry.name.split(".")[0];
+                                const routePath = (relPath === '/' ? relPath : relPath + '/') + entry.name.replace(/\.controller\.(j|t)s$/, '');
                                 if (route.httpMethod === "ws") {
                                     this.server.on("upgrade", ((req, s, head) => {
                                         console.log(`-----------Websocket upgrade request for ${routePath}---------------`);
@@ -111,8 +112,10 @@ export class KissServer {
                                     this.app[route.httpMethod](routePath, (req, res, next) => w.call(ctr, req, res, next));
                                 }
                                 console.log(
-                                    `Registered - ${routePath}:${route.httpMethod} to ${orgClass}.${String(route.wrappedName)}()`
-                                );
+                                    colors.gray(`Registered`),
+                                    '-',
+                                    colors.blue(`${routePath}:${route.httpMethod}`, 
+                                    colors.gray(`to ${orgClass}.${String(route.wrappedName)}()`))                               );
                             } else {
                                 console.log(`Warning - route method for ${route.httpMethod}:${relPath} to ${(<Constructor<any>>topLvlExport).prototype.name} not found`)
                             }

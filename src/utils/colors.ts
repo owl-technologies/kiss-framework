@@ -5,6 +5,7 @@ export const colors = new (class {
     black = this.color.bind(null, 30, false);
     red = this.color.bind(null, 31, false);
     green = this.color.bind(null, 32, false);
+    gray = this.color.bind(null, 90, false);
     yellow = this.color.bind(this, 33, false);
     blue = this.color.bind(this, 34, false);
     magenta = this.color.bind(this, 35, false);
