@@ -1,11 +1,5 @@
 import { colors } from './colors.js';
 
-// const colors = {
-//     red: (s: string) => s,
-//     yellow: (s: string) => s,
-//     green: (s: string) => s,
-//   };
-
 type TestFn = () => void | Promise<void>;
 
 interface Test {

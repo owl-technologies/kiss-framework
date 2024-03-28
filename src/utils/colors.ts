@@ -1,6 +1,6 @@
 
 export const colors = new (class {
-    color = (code: number, ended = false, ...messages: any[]) =>
+    color = (code: number, ended = true, ...messages: any[]) =>
       `\x1b[${code}m${messages.join(" ")}${ended ? "\x1b[0m" : ""}`;
     black = this.color.bind(null, 30, false);
     red = this.color.bind(null, 31, false);
