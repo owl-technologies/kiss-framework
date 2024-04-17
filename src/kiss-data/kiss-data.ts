@@ -32,9 +32,9 @@ export type FIELD_PROPERTIES = {
   optional?: boolean
 }
 
-export const CURRENT_VERSION = 0.1;
-
 export abstract class KissData<T = any> {
+
+  static CURRENT_VERSION = 0.01;
 
   /**  
    * This is a version of the format. It is used to determine if the 
@@ -54,7 +54,7 @@ export abstract class KissData<T = any> {
 
   constructor(public from: any) {
     if (from) {
-      if (from['protocol-version'] !== CURRENT_VERSION) {
+      if (from['protocol-version'] < KissData.CURRENT_VERSION) {
         // try to migrate the data to the current version
         const migrate = metadata.getFunction(this, MIGRATE_METADATA);
         if (!migrate) {
@@ -63,7 +63,7 @@ export abstract class KissData<T = any> {
           from = migrate(from);
         }
         // if the data is not migrated, throw an error
-        if (!from || from['protocol-version'] !== CURRENT_VERSION) {
+        if (!from || from['protocol-version'] !== KissData.CURRENT_VERSION) {
           throw new Error(`Protocol version ${from ?? from['protocol-version']} is not supported by ${this.constructor?.name}`);
         }
       }
@@ -136,6 +136,6 @@ export abstract class KissData<T = any> {
    */
   @RegisterMigrate
   migrate<T>(from: T): T {
-    throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${CURRENT_VERSION} is not implemented`)
+    throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissData.CURRENT_VERSION} is not implemented`)
   }
 }
