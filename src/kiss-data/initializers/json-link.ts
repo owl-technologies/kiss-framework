@@ -8,11 +8,11 @@ export class JSONLink<To> implements OpLink<To, any> {
         this.transform ??= (data: any) => String(data) as To;
      }
 
-    _cachedValue: To;
-
-    set(value: To): void {
-        throw new Error("Method not implemented.");
+    set(link): void {
+        this.link = link;
     }
+
+    private _cachedValue: To;
 
     get(): To {
         if (!this._cachedValue) {

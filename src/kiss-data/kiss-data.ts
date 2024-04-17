@@ -1,4 +1,5 @@
 // import { version } from '../../package.json';
+import { allKeys } from "../utils/allKeys.js";
 import { metadata } from "../utils/reflect-metadata.js";
 
 export function RegisterMigrate<This extends KissData, F extends (this: This, from: any) => any>(method: F, context: ClassMethodDecoratorContext<This, F>) {
@@ -78,8 +79,8 @@ export abstract class KissData<T = any> {
    * If the field is required and not set, an error is thrown.
    */
   toJSON(): any {
-    const keys = Object.keys(this);
-    const sortedKeys = keys.filter(key => key !== 'link').sort();
+    const keys = allKeys(this);
+    const sortedKeys = keys.sort();
 
     const fieldsMeta = this[FIELD_METADATA] as Map<string | symbol, FIELD_PROPERTIES>;
     if (fieldsMeta?.size > 0) {

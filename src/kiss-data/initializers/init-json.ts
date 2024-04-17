@@ -83,7 +83,7 @@ export function InitJsonArray<T extends KissData, V>(
                 const fromValue = this.from?.[context.name];
                 if (fromValue) {
                     let toValue: V[];
-                    assert(fromValue instanceof Array, `Expected ${String(context.name)} to be an array, got ${typeof fromValue}`)
+                    assert(fromValue instanceof Array, `Expected ${String(context.name)} to be an array, got type:${typeof fromValue} - ${fromValue}`)
                     if (isConstructor(transform)) {
                         toValue = fromValue.map((link) => new (transform as any)(link));
                     } else {
@@ -107,14 +107,19 @@ export function GetSetJsonArray<T extends KissData, V>(
         return {
             init: function (this: T, value: V[]) {
                 const fromValue = this.from?.[context.name];
+                if (fromValue === undefined) {
+                    return value;
+                }
                 // console.debug(`----- GetSetJsonArray Initializing accessor ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} Ignoring provided initialization: ${value} from ${fromValue}`)
                 let toValue: V[];
-                assert(fromValue instanceof Array, `Expected ${String(context.name)} to be an array, got ${typeof fromValue}`)
+
+                assert(fromValue instanceof Array, `Expected accessor ${String(context.name)} to be an array,  got type:${typeof fromValue} - ${fromValue}`)
                 if (isConstructor(transform)) {
                     toValue = fromValue.map((link) => new (transform as any)(link));
                 } else {
                     toValue = fromValue.map((link) => (transform as Function)(link));
                 }
+
                 return toValue;
             },
             get: function (this: T) {
