@@ -1,11 +1,6 @@
 // import { version } from '../../package.json';
 import { metadata } from "../utils/reflect-metadata.js";
 
-
-// export const CURRENT_VERSION = Number(version);
-
-export const CURRENT_VERSION = 0.2;
-
 export function RegisterMigrate<This extends KissData, F extends (this: This, from: any) => any>(method: F, context: ClassMethodDecoratorContext<This, F>) {
   // console.debug(`++++++ RegisterMigrate ${String(context.name)} ${method}`)
   const m = metadata.setFunction<F>(context, MIGRATE_METADATA, method);
@@ -37,6 +32,8 @@ export type FIELD_PROPERTIES = {
   optional?: boolean
 }
 
+export const CURRENT_VERSION = 0.1;
+
 export abstract class KissData<T = any> {
 
   /**  
@@ -56,7 +53,6 @@ export abstract class KissData<T = any> {
   [FIELD_METADATA] = new Map<string | symbol, FIELD_PROPERTIES>();
 
   constructor(public from: any) {
-    // console.debug(`OplantoFormat constructor ${this.constructor.name}, from ${JSON.stringify(from)}`)
     if (from) {
       if (from['protocol-version'] !== CURRENT_VERSION) {
         // try to migrate the data to the current version
@@ -73,7 +69,6 @@ export abstract class KissData<T = any> {
       }
       this['protocol-version'] = from['protocol-version'];
       this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
-      // console.debug(`returning after Constructor ${this.constructor.name}`)
     }
   }
 
@@ -107,12 +102,10 @@ export abstract class KissData<T = any> {
               throw new Error(`Required field ${this.constructor?.name}.${String(key)} is not set, cannot serialize`);
             // If the property has a toJSON method, call it
             case this[key]?.toJSON && this[key]?.toJSON instanceof Function:
-              // console.debug(`Serializing field toJSON ${this.constructor.name}.${key}`);
               obj[key] = this[key].toJSON();
               return obj;
             // If the property is any other type, just assign it
             default:
-              // console.debug(`Serializing field toString() ${this.constructor.name}.${key}`);
               obj[key] = this[key];
               return obj;
           }
@@ -137,12 +130,12 @@ export abstract class KissData<T = any> {
    *       from['protocol-version'] = 0.2;
    *       return from;
    *     default:
-   *       throw new Error(`Unsupported protocol version ${this.link['protocol-version']} for ${this.constructor.name}`);
+   *       throw new Error(`Unsupported protocol version ${this.link['protocol-version']} for ${this.constructor?.name}`);
    *   }
    * }
    */
   @RegisterMigrate
   migrate<T>(from: T): T {
-    throw Error(`Migrating ${this.constructor?.name} from ${from['protocol-version']} to ${CURRENT_VERSION} is not implemented`)
+    throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${CURRENT_VERSION} is not implemented`)
   }
 }

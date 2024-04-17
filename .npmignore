@@ -3,3 +3,4 @@
 *.test.ts
 .vscode
 tsconfig.json
+graph.svg

@@ -4,8 +4,8 @@ import { Server } from "http";
 import https from "https";
 import path from "path";
 import { WebSocketServer } from 'ws';
-import { colors } from "../index.js";
 import { Constructor } from "../kiss-data/decorators/types.js";
+import { colors } from "../utils/colors.js";
 import { isConstructor } from "../utils/is-constructor.js";
 import { metadata } from "../utils/reflect-metadata.js";
 import { HttpTypes, ROUTES_KEY } from "./RequestTypes.js";
@@ -92,7 +92,7 @@ export class KissServer {
                                 const routePath = (relPath === '/' ? relPath : relPath + '/') + entry.name.replace(/\.controller\.(j|t)s$/, '');
                                 if (route.httpMethod === "ws") {
                                     this.server.on("upgrade", ((req, s, head) => {
-                                        console.log(`-----------Websocket upgrade request for ${routePath}---------------`);
+                                        // console.log(`-----------Websocket upgrade request for ${routePath}---------------`);
                                         const wss = new WebSocketServer({ noServer: true });
                                         wss.on("connection", ((client, request) => {
                                             w(ctr, client, request);

@@ -46,8 +46,12 @@ export default {
     ],
     experiments: {
         outputModule: true,
+    }, 
+    externals: {
+        'ws': 'ws',
+        'express': 'express',
+        'axios': 'axios',
+        'webpack': 'webpack',
+        'webpack-bundle-analyzer': 'webpack-bundle-analyzer',
     }
-    // ,externals: {
-    //   'yjs': 'yjs'
-    // }
 };

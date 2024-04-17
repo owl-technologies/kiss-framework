@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.20",
+  "version": "1.0.27",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -19,8 +19,6 @@
   "scripts": {
     "build": "tsc",
     "build:esm": "tsc; webpack --config webpack.config.js",
-    "prestart": "npm run build",
-    "start": "node ./dist/example/start-server.js",
     "test": "tsc; node ./dist/tests/kiss-data.test.js",
     "check-circular": "madge --circular --image graph.svg --extensions ts ./src"
   },
@@ -38,14 +36,14 @@
     "tsx": "^4.7.1",
     "typescript": "^5.4.3",
     "webpack-cli": "^5.1.4",
-    "ts-loader": "^9.5.1"
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.91.0",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "dependencies": {
     "@decorators/di": "^3.1.0",
     "@decorators/express": "^3.0.0",
     "express": "^4.19.1",
-    "webpack": "^5.91.0",
-    "webpack-bundle-analyzer": "^4.10.1",
     "ws": "^8.16.0"
   }
 }

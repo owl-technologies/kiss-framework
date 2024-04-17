@@ -19,7 +19,7 @@ export function Required<T extends KissData, V>() {
                 const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                 // console.debug(`----- Required ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${args}`)
                 if (args === undefined && this[context.name] === undefined) {
-                    throw new Error(`Required field ${this.constructor.name}.${String(context.name)} is not set`)
+                    throw new Error(`Required field ${this.constructor?.name}.${String(context.name)} is not set`)
                 }
                 if (!fieldMeta.required) {
                     fieldMeta.required = true;
@@ -31,7 +31,7 @@ export function Required<T extends KissData, V>() {
             return {
                 init(this: T, args: V) {
                     if (args === undefined) {
-                        throw new Error(`Required field <${this.constructor.name}>.${String(context.name)} is not set`)
+                        throw new Error(`Required field <${this.constructor?.name}>.${String(context.name)} is not set`)
                     } else {
                         const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                         fieldMeta.required = true;

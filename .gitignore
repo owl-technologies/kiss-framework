@@ -3,5 +3,6 @@ node_modules
 dist
 .vscode
 leveldb/*
+graph.svg
 ```
 src/example/.DS_Store
