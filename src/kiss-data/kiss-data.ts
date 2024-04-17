@@ -80,8 +80,8 @@ export abstract class KissData<T = any> {
    */
   toJSON(): any {
     const keys = allKeys(this);
+    keys.push('protocol-version');
     const sortedKeys = keys.sort();
-
     const fieldsMeta = this[FIELD_METADATA] as Map<string | symbol, FIELD_PROPERTIES>;
     if (fieldsMeta?.size > 0) {
       return sortedKeys.reduce((obj, key) => {
