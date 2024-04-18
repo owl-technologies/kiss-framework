@@ -86,7 +86,7 @@ export abstract class KissData<T = any> {
     if (fieldsMeta?.size > 0) {
       return sortedKeys.reduce((obj, key) => {
         if (!fieldsMeta.has(key)) {
-          // console.warn(`Property ${key} not required in class ${this.constructor.name}, ignoring it`);
+          // console.warn(`Property ${key} is not required to be serialized in class ${this.constructor?.name}, ignoring it`);
           return obj;
         } else {
           // If the property is required, try to get it from the accessor or the field
