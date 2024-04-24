@@ -79,6 +79,11 @@ export function expect(actual: any) {
         throw new Error(colors.red(`Expected ${actual} to be defined`));
       }
     },
+    toContain(expected: any) {
+      if (!actual.includes(expected)) {
+        throw new Error(colors.red(`Expected ${actual} to contain ${expected}`));
+      }
+    },
     // not(obj): typeof expect {
     //   return new Proxy(obj, {
     //     get(target, prop, receiver) {

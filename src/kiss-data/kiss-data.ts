@@ -79,12 +79,11 @@ export abstract class KissData<T = any> {
    * If the field is required and not set, an error is thrown.
    */
   toJSON(): any {
-    const keys = allKeys(this);
-    keys.push('protocol-version');
-    const sortedKeys = keys.sort();
+    const keys = allKeys(this).filter(key => typeof key === 'string').sort()
+    // const sortedKeys = keys.sort();
     const fieldsMeta = this[FIELD_METADATA] as Map<string | symbol, FIELD_PROPERTIES>;
     if (fieldsMeta?.size > 0) {
-      return sortedKeys.reduce((obj, key) => {
+      const newObj = keys.reduce((obj, key) => {
         if (!fieldsMeta.has(key)) {
           // console.warn(`Property ${key} is not required to be serialized in class ${this.constructor?.name}, ignoring it`);
           return obj;
@@ -112,6 +111,7 @@ export abstract class KissData<T = any> {
           }
         }
       }, {});
+      return newObj;
     } else {
       return {}
     }

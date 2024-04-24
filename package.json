@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.40",
+  "version": "1.0.43",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc",
     "build:esm": "tsc; webpack --config webpack.config.js",
-    "test": "tsc; node ./dist/tests/kiss-data.test.js",
+    "test": "tsc; node ./dist/tests/allKeys.test.js",
     "check-circular": "madge --circular --image graph.svg --extensions ts ./src"
   },
   "author": "H. Faddeev",

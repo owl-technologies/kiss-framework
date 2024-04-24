@@ -11,3 +11,6 @@ If all goes well, you should see the example application as follows:
 
 
 <img width="952" alt="Screenshot 2024-03-24 at 17 44 43" src="https://github.com/owl-technologies/kiss-framework/assets/64410585/ed3b2a03-2094-4970-9221-036000b3437a">
+
+
+CDN: "https://cdn.jsdelivr.net/npm/kiss-framework@latest/dist/index.js"

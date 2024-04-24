@@ -42,7 +42,9 @@ export default {
         libraryTarget: 'module'
     },
     plugins: [
-        new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'disabled'
+        })
     ],
     experiments: {
         outputModule: true,
