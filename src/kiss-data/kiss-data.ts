@@ -65,7 +65,7 @@ export abstract class KissData<T = any> {
         }
         // if the data is not migrated, throw an error
         if (!from || from['protocol-version'] !== KissData.CURRENT_VERSION) {
-          throw new Error(`Protocol version ${from ?? from['protocol-version']} is not supported by ${this.constructor?.name}`);
+          throw new Error(`Protocol version ${from ?? JSON.stringify(from['protocol-version'])} is not supported by ${this.constructor?.name}`);
         }
       }
       this['protocol-version'] = from['protocol-version'];
