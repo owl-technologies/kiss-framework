@@ -1,5 +1,5 @@
-import { InitJson, Length, KissData, Optional, Required } from "../index.js";
-import { describe, expect, it } from "../index.js";
+import { InitJson, KissData, Length, Optional, Required } from "../index.js";
+import { describe, expect, it } from "../utils/index.js";
 
 const p1 = {
     "protocol-version": 0.2,
