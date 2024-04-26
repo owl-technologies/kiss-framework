@@ -50,7 +50,6 @@ export default {
         outputModule: true,
     }, 
     externals: {
-        'ws': 'ws',
         'express': 'express',
         'axios': 'axios',
         'webpack': 'webpack',
