@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.45",
+  "version": "1.0.52",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -11,10 +11,6 @@
       "import": "./dist/index.esm.js",
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js"
-    },
-    "./utils": {
-      "import": "./dist/utils/index.js",
-      "types": "./dist/utils/index.d.ts"
     },
     "./package.json": "./package.json"
   },
