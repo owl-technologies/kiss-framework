@@ -1,5 +1,4 @@
-import { ConstructorOrFunction } from "../index.js";
-import { assert, describe, expect, it, metadata } from "../utils/index.js";
+import { ConstructorOrFunction, assert, describe, expect, it, metadata } from "../index.js";
 
 // Lifecycle: AccessorDecorator -> MethodDecorator -> FieldDecorator -> ClassDecorator -> Fields Assignments -> Constructor -> Method Calls
 function ClassDecorator() {

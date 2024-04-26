@@ -1,4 +1,4 @@
-import { allKeys, describe, expect, it } from "../utils/index.js";
+import { allKeys, describe, expect, it } from "../index.js";
 
 class Parent {
     age: 100;

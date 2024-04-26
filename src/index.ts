@@ -11,6 +11,12 @@ export { FIELD_METADATA, KissData, RegisterMigrate } from "./kiss-data/kiss-data
 export { Controller, KissServer } from "./kiss-web/Controller.js";
 export { Get, Post, WS } from "./kiss-web/RequestTypes.js";
 export { Service } from "./kiss-web/Service.js";
+export { allKeys } from "./utils/allKeys.js";
+export { assert } from "./utils/assert.js";
+export { colors } from "./utils/colors.js";
+export { isClass } from "./utils/is-class.js";
+export { isConstructor } from "./utils/is-constructor.js";
+export { describe, expect, it, test } from "./utils/not-jest.js";
+export { metadata } from "./utils/reflect-metadata.js";
 
-export * as utils from "./utils/index.js";
 
