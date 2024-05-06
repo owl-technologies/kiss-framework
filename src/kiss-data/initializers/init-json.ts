@@ -23,12 +23,16 @@ export function InitJson<T extends KissData, V>(
                 const fromValue = this.from?.[context.name];
                 let toValue: V;
                 if (fromValue !== undefined && fromValue !== null) {
-                    if (isConstructor(transform)) {
-                        toValue = new (transform as Constructor<V>)(fromValue);
-                    } else {
-                        toValue = (transform as Function)(fromValue);
+                    try {
+                        if (isConstructor(transform)) {
+                            toValue = new (transform as Constructor<V>)(fromValue);
+                        } else {
+                            toValue = (transform as Function)(fromValue);
+                        }
+                        return toValue
+                    } catch (e : any) {
+                        throw new Error(`Error initializing field ${String(context.name)} with value ${fromValue} - ${e.message}`)
                     }
-                    return toValue
                 }
             }
             return args;
