@@ -50,6 +50,11 @@ export function GetSetJson<T extends KissData, V>(
     ) {
         return {
             init: function (this: T, value: V): V {
+                // To avoid calling transform function with undefined value,
+                // initialize the field only if initial value is provided 
+                if (!(context.name in this.from)) {
+                    return value;
+                }
                 const fromValue = this.from?.[context.name];
                 let toValue: V;
                 // console.debug(`----- GetSetJson Initializing accessor ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} Ignoring provided initialization: ${value} from ${fromValue}`)
