@@ -100,6 +100,10 @@ export abstract class KissData<T = any> {
               return obj;
             case fieldMeta?.required && this[key] === undefined:
               throw new Error(`Required field ${this.constructor?.name}.${String(key)} is not set, cannot serialize`);
+            // If the property is an array, call toJSON on each element
+            case this[key] instanceof Array:
+              obj[key] = this[key].map((element: any) => element?.toJSON ? element.toJSON() : element);
+              return obj;
             // If the property has a toJSON method, call it
             case this[key]?.toJSON && this[key]?.toJSON instanceof Function:
               obj[key] = this[key].toJSON();
