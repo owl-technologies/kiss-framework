@@ -17,7 +17,7 @@ export abstract class SearchableByName {
     static namePrefix: string;
 };
 
-export type Constructor<T> = { new(...data: any[]) : T };
+export type Constructor<T> = { new(...data: any[]): T };
 
 export type ConstructorOrFunction<T> = Constructor<T> | ((data: any) => T);
 
@@ -32,15 +32,13 @@ export type x = ClassAccessorDecoratorContext
  * 
  * @see https://docs.yjs.dev/api/delta-format
  */
-export type Delta = {
-    ops: Array<{
-        retain?: number;
-        insert?: any;
-        delete?: number;
-        attributes?: {
-            [key: string]: any;
-        };
-    }>;
-}
+export type Delta = Array<{
+    retain?: number;
+    insert?: any;
+    delete?: number;
+    attributes?: {
+        [key: string]: any;
+    };
+}>;
 
 export type GatewayFn = <To>(cid: string, transform?: ConstructorOrFunction<To>, responseType?: 'arraybuffer' | 'json') => Promise<To>;
