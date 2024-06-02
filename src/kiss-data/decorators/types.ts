@@ -21,18 +21,22 @@ export type Constructor<T> = { new(...data: any[]): T };
 
 export type ConstructorOrFunction<T> = Constructor<T> | ((data: any) => T);
 
+export type ConstructorFunctionEnum<T> = Constructor<T> | ((data: any) => T) | { [key: string]: ConstructorOrFunction<T> };
+
 // export type DecoratorContext<T extends 'field' | 'accessor'> =
 //     T extends 'field'
 //     ? ClassFieldDecoratorContext
 //     : ClassAccessorDecoratorContext;
 export type x = ClassAccessorDecoratorContext
 
+
+export type Delta = DeltaOps | { ops : DeltaOps}
 /**
  * YJS Delta format.
  * 
  * @see https://docs.yjs.dev/api/delta-format
  */
-export type Delta = Array<{
+type DeltaOps = Array<{
     retain?: number;
     insert?: any;
     delete?: number;
