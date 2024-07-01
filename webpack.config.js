@@ -1,10 +1,11 @@
 import path, { dirname } from "path";
-import { TerserPlugin } from "terser-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
 import { fileURLToPath } from "url";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const __filename = fileURLToPath( import.meta.url );
 const __dirname = dirname( __filename );
+
 
 export default {
     entry: './src/index.ts',
