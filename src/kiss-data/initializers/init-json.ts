@@ -34,7 +34,7 @@ export function InitJson<T extends KissData, V>(
                             }
                             return toValue
                         } catch (e: any) {
-                            throw new Error(`Error initializing field ${String(context.name)} with value ${fromValue} - ${e.message}`)
+                            throw new Error(`Error initializing field ${String(context.name)} with value ${JSON.stringify(fromValue)} - ${e.message}`)
                         }
                     }
                 }

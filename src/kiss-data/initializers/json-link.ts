@@ -23,7 +23,7 @@ export class JSONLink<To> implements OpLink<To, any> {
                     this._cachedValue = (this.transform as Function)(this.link);
                 }
             } catch (e : any) {
-                throw new Error(`Error initializing field with value ${this.link} - ${e.message}`)
+                throw new Error(`Error initializing link with value ${ JSON.stringify(this.link, null,2)} - ${e.message}`)
             }
         }
         return this._cachedValue;
