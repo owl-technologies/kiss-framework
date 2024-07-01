@@ -1,4 +1,5 @@
 import path, { dirname } from "path";
+import { TerserPlugin } from "terser-webpack-plugin";
 import { fileURLToPath } from "url";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
@@ -42,17 +43,34 @@ export default {
         libraryTarget: 'module'
     },
     plugins: [
-        new BundleAnalyzerPlugin({
+        new BundleAnalyzerPlugin( {
             analyzerMode: 'disabled'
-        })
+        } )
     ],
     experiments: {
         outputModule: true,
-    }, 
+    },
     externals: {
         'express': 'express',
         'axios': 'axios',
         'webpack': 'webpack',
         'webpack-bundle-analyzer': 'webpack-bundle-analyzer',
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin( {
+                terserOptions: {
+                    // Prevent mangling class names
+                    keep_classnames: true,
+                    // Prevent mangling function names, optional, based on your needs
+                    keep_fnames: true,
+                    // Default options
+                    compress: {
+                        passes: 2,
+                    },
+                },
+            } ),
+        ],
     }
 };
