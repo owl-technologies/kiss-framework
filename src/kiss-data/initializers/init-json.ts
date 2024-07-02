@@ -139,14 +139,18 @@ export function GetSetJsonArray<T extends KissData, V>(
                         const fromValue = this.from?.[context.name];
 
                         // console.debug(`----- GetSetJsonArray Initializing accessor ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} Ignoring provided initialization: ${value} from ${fromValue}`)
-                        let toValue: V[];
-                        assert(fromValue instanceof Array, `Expected accessor ${String(context.name)} to be an array,  got type:${typeof fromValue} - ${fromValue}`)
-                        if (isConstructor(transform)) {
-                            toValue = fromValue.map((link) => new (transform as any)(link));
+                        if (fromValue !== undefined && fromValue !== null) {
+                            let toValue: V[];
+                            assert(fromValue instanceof Array, `Expected accessor ${String(context.name)} to be an array,  got type:${typeof fromValue} - ${fromValue}`)
+                            if (isConstructor(transform)) {
+                                toValue = fromValue.map((link) => new (transform as any)(link));
+                            } else {
+                                toValue = fromValue.map((link) => (transform as Function)(link));
+                            }
+                            return toValue;
                         } else {
-                            toValue = fromValue.map((link) => (transform as Function)(link));
+                            return fromValue;
                         }
-                        return toValue;
                     }
                 }
                 return value;
