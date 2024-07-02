@@ -1,4 +1,4 @@
-function RejectAfter(timeout: number, message: string) {
+export function RejectAfter(timeout: number, message: string) {
   return function ( method, context: ClassMethodDecoratorContext) {
       return function (this, ...args) {
           return new Promise((resolve, reject) => {
