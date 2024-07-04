@@ -53,7 +53,9 @@ export abstract class KissData<T = any> {
    */
   [FIELD_METADATA] = new Map<string | symbol, FIELD_PROPERTIES>();
 
-  constructor(public from: any) {
+  constructor(public src: any) {
+    //shallow copy the src object
+    let from = { ...src };
     if (from) {
       if (from['protocol-version'] < KissData.CURRENT_VERSION) {
         // try to migrate the data to the current version
