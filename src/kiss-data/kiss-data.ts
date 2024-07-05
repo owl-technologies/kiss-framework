@@ -72,7 +72,7 @@ export abstract class KissData<T = any> {
           throw new Error(`Protocol version ${this.migrated ?? JSON.stringify(this.migrated['protocol-version'])} is not supported by ${this.constructor?.name}`);
         }
       }
-      this['protocol-version'] = this.migrated['protocol-version'];
+      this['protocol-version'] = this.migrated? this.migrated['protocol-version'] : src['protocol-version'];
       this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
     }
   }
