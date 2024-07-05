@@ -14,16 +14,16 @@ export function InitJson<T extends KissData, V>(
         return function (this: T, args: V) {
             // To avoid calling transform function with undefined value,
             // initialize the field only if initial value is provided 
-            if (context.name in this.src) {
+            if (context.name in this.migrated) {
                 const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
-                // console.debug(`----- InitJson ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${args} from ${JSON.stringify(this.src?.[context.name])}`)
+                // console.debug(`----- InitJson ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${args} from ${JSON.stringify(this.migrated?.[context.name])}`)
                 if (!fieldMeta.initialized) {
                     // Initialize the field only once
                     fieldMeta.initialized = true;
                     this[FIELD_METADATA].set(context.name, fieldMeta);
 
                     // Transform the value only if it is provided
-                    const fromValue = this.src?.[context.name];
+                    const fromValue = this.migrated?.[context.name];
                     let toValue: V;
                     if (fromValue !== undefined && fromValue !== null) {
                         try {
@@ -56,13 +56,13 @@ export function GetSetJson<T extends KissData, V>(
             init: function (this: T, value: V): V {
                 // To avoid calling transform function with undefined value,
                 // initialize the field only if initial value is provided 
-                if (context.name in this.src) {
+                if (context.name in this.migrated) {
                     const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                     if (!fieldMeta.initialized) {
                         // Initialize the field only once
                         fieldMeta.initialized = true;
                         this[FIELD_METADATA].set(context.name, fieldMeta);
-                        const fromValue = this.src?.[context.name];
+                        const fromValue = this.migrated?.[context.name];
                         let toValue: V;
                         // console.debug(`----- GetSetJson Initializing accessor ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} Ignoring provided initialization: ${value} from ${fromValue}`)
                         if (isConstructor(transform)) {
@@ -96,13 +96,13 @@ export function InitJsonArray<T extends KissData, V>(
         return function (this: T, value: V[]) {
             // To avoid calling transform function with undefined value,
             // initialize the field only if initial value is provided 
-            if (context.name in this.src) {
+            if (context.name in this.migrated) {
                 const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                 // console.debug(`----- InitJsonArray ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${value} from ${JSON.stringify(this.link[context.name])}`)
                 if (!fieldMeta.initialized) {
                     fieldMeta.initialized = true;
                     this[FIELD_METADATA].set(context.name, fieldMeta);
-                    const fromValue = this.src?.[context.name];
+                    const fromValue = this.migrated?.[context.name];
                     if (fromValue) {
                         let toValue: V[];
                         assert(fromValue instanceof Array, `Expected ${String(context.name)} to be an array, got type:${typeof fromValue} - ${fromValue}`)
@@ -131,12 +131,12 @@ export function GetSetJsonArray<T extends KissData, V>(
             init: function (this: T, value: V[]) {
                 // To avoid calling transform function with undefined value,
                 // initialize the field only if initial value is provided 
-                if (context.name in this.src) {
+                if (context.name in this.migrated) {
                     const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                     if (!fieldMeta.initialized) {
                         fieldMeta.initialized = true;
                         this[FIELD_METADATA].set(context.name, fieldMeta);
-                        const fromValue = this.src?.[context.name];
+                        const fromValue = this.migrated?.[context.name];
 
                         // console.debug(`----- GetSetJsonArray Initializing accessor ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} Ignoring provided initialization: ${value} from ${fromValue}`)
                         if (fromValue !== undefined && fromValue !== null) {

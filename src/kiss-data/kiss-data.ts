@@ -53,24 +53,26 @@ export abstract class KissData<T = any> {
    */
   [FIELD_METADATA] = new Map<string | symbol, FIELD_PROPERTIES>();
 
+  migrated
+
   constructor(public src: any) {
-    //shallow copy the src object
-    let from = { ...src };
-    if (from) {
-      if (from['protocol-version'] < KissData.CURRENT_VERSION) {
+    if (src) {
+      if (src['protocol-version'] < KissData.CURRENT_VERSION) {
+      
         // try to migrate the data to the current version
         const migrate = metadata.getFunction(this, MIGRATE_METADATA);
         if (!migrate) {
           throw new Error(`metadata not defined for ${this.constructor?.name}`)
         } else {
-          from = migrate(from);
+          //migrate shallow copy the src object
+          this.migrated = migrate({ ...src });
         }
         // if the data is not migrated, throw an error
-        if (!from || from['protocol-version'] !== KissData.CURRENT_VERSION) {
-          throw new Error(`Protocol version ${from ?? JSON.stringify(from['protocol-version'])} is not supported by ${this.constructor?.name}`);
+        if (!this.migrated || this.migrated['protocol-version'] !== KissData.CURRENT_VERSION) {
+          throw new Error(`Protocol version ${this.migrated ?? JSON.stringify(this.migrated['protocol-version'])} is not supported by ${this.constructor?.name}`);
         }
       }
-      this['protocol-version'] = from['protocol-version'];
+      this['protocol-version'] = this.migrated['protocol-version'];
       this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
     }
   }
