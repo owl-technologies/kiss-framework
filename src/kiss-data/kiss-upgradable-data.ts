@@ -34,7 +34,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
         if (src) {
             if(typeof src['protocol-version'] === 'string'){
                 //try to parse to number, convert to number only if it is there
-                this['protocol-version'] = parseFloat(src['protocol-version']);
+                src['protocol-version'] = parseFloat(src['protocol-version']);
             }
             if (src['protocol-version'] < KissUpgradableData.CURRENT_VERSION) {
                 this.original = { ...src }; //Shallow copy of src
