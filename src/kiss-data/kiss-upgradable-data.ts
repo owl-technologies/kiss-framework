@@ -32,9 +32,12 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
     constructor(src) {
         super(src)
         if (src) {
-            this.original = { ...src }; //Shallow copy of src
+            if(typeof src['protocol-version'] === 'string'){
+                //try to parse to number, convert to number only if it is there
+                this['protocol-version'] = parseFloat(src['protocol-version']);
+            }
             if (src['protocol-version'] < KissUpgradableData.CURRENT_VERSION) {
-
+                this.original = { ...src }; //Shallow copy of src
                 // try to migrate the data to the current version
                 const migrate = metadata.getFunction(this, MIGRATE_METADATA);
 
