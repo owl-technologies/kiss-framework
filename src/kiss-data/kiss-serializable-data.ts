@@ -1,14 +1,6 @@
 // import { version } from '../../package.json';
 import { allKeys } from "../utils/allKeys.js";
-import { metadata } from "../utils/reflect-metadata.js";
 
-export function RegisterMigrate<This extends KissData, F extends (this: This, from: any) => any>(method: F, context: ClassMethodDecoratorContext<This, F>) {
-  // console.debug(`++++++ RegisterMigrate ${String(context.name)} ${method}`)
-  const m = metadata.setFunction<F>(context, MIGRATE_METADATA, method);
-  // return function (this: This, ...args: any) {
-  //   return m.call(this, args);
-  // }
-}
 
 export const FIELD_METADATA = Symbol('FieldMetadata');
 
@@ -33,18 +25,7 @@ export type FIELD_PROPERTIES = {
   optional?: boolean
 }
 
-export abstract class KissData<T = any> {
-
-  static CURRENT_VERSION = 0.01;
-
-  /**  
-   * This is a version of the format. It is used to determine if the 
-   * format is compatible with the current version of the software.
-   * When the format is different from the current version, the migrate()
-   * method decorated with @RegisterMigrate is called to migrate the data 
-   * to the current version.
-   */
-  "protocol-version": number;
+export abstract class KissSerializableData<T = any> {
 
   /**
    * Metadata for the fields of the class. The fields initialized, required 
@@ -53,29 +34,7 @@ export abstract class KissData<T = any> {
    */
   [FIELD_METADATA] = new Map<string | symbol, FIELD_PROPERTIES>();
 
-  migrated
-
-  constructor(public src: any) {
-    if (src) {
-      if (src['protocol-version'] < KissData.CURRENT_VERSION) {
-      
-        // try to migrate the data to the current version
-        const migrate = metadata.getFunction(this, MIGRATE_METADATA);
-        if (!migrate) {
-          throw new Error(`metadata not defined for ${this.constructor?.name}`)
-        } else {
-          //migrate shallow copy the src object
-          this.migrated = migrate({ ...src });
-        }
-        // if the data is not migrated, throw an error
-        if (!this.migrated || this.migrated['protocol-version'] !== KissData.CURRENT_VERSION) {
-          throw new Error(`Protocol version ${this.migrated ?? JSON.stringify(this.migrated['protocol-version'])} is not supported by ${this.constructor?.name}`);
-        }
-      }
-      this['protocol-version'] = this.migrated? this.migrated['protocol-version'] : src['protocol-version'];
-      this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
-    }
-  }
+  constructor(public src){}
 
   /**
    * Serializes the object to JSON. It uses the metadata to determine if the field 
@@ -123,28 +82,5 @@ export abstract class KissData<T = any> {
     } else {
       return {}
     }
-  }
-
-  /**
-   * Migrates the data from the current version to the latest version. It is executed by OplantoFormat constructor,
-   * after the link is set, therefor nothing but the link should be used in this method. This method must transform
-   * the data in the link to the latest version. e.g.:
-   *   @RegisterMigrate
-   * migrate (from: any) {
-   *   switch (from['protocol-version']) {
-   *     case undefined:
-   *       throw new Error(`Protocol version is not defined in ${this.link}`)
-   *     case 0.1:
-   *       // Conversions from this.link 0.1 to 0.2 go here
-   *       from['protocol-version'] = 0.2;
-   *       return from;
-   *     default:
-   *       throw new Error(`Unsupported protocol version ${this.link['protocol-version']} for ${this.constructor?.name}`);
-   *   }
-   * }
-   */
-  @RegisterMigrate
-  migrate<T>(from: T): T {
-    throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissData.CURRENT_VERSION} is not implemented`)
   }
 }

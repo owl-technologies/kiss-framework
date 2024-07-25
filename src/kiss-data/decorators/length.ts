@@ -1,8 +1,8 @@
-import { FIELD_METADATA, KissData } from "../kiss-data.js";
+import { FIELD_METADATA, KissSerializableData } from "../kiss-serializable-data.js";
 
 
 export function Length(min: number, max: number) {
-    return function <T extends KissData, V>(
+    return function <T extends KissSerializableData, V>(
         accessor: any | ClassAccessorDecoratorTarget<T, V>,
         context: ClassFieldDecoratorContext<T, V> | ClassAccessorDecoratorContext<T, V>
     ) {

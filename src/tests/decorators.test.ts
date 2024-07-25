@@ -1,4 +1,4 @@
-import { InitJson, KissData, Length, Optional, Required, describe, expect, it } from "../index.js";
+import { InitJson, KissSerializableData, Length, Optional, Required, describe, expect, it } from "../index.js";
 
 const p1 = {
     "protocol-version": 0.2,
@@ -21,7 +21,7 @@ const p4 = {
     "age": "42"
 }
 
-class TestPerson extends KissData {
+class TestPerson extends KissSerializableData {
 
     @InitJson()
     @Required()

@@ -1,4 +1,4 @@
-import { FIELD_METADATA, KissData } from "../kiss-data.js";
+import { FIELD_METADATA, KissSerializableData } from "../kiss-serializable-data.js";
 
 /**
  * If the field with @Optional decorator it will be 
@@ -8,7 +8,7 @@ import { FIELD_METADATA, KissData } from "../kiss-data.js";
  * 
  * @returns does not modify the field or accessor
  */
-export function Optional<T extends KissData, V>() {
+export function Optional<T extends KissSerializableData, V>() {
     return function (
         accessor: any | ClassAccessorDecoratorTarget<T, V>,
         context: ClassFieldDecoratorContext<T, V> | ClassAccessorDecoratorContext<T, V>

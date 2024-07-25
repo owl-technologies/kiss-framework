@@ -1,7 +1,7 @@
-import { KissData } from "../kiss-data.js";
+import { KissSerializableData } from "../kiss-serializable-data.js";
 
 export function Max(max: number) {
-    return function <T extends KissData, V>(
+    return function <T extends KissSerializableData, V>(
         accessor: any | ClassAccessorDecoratorTarget<T, V>,
         context: ClassFieldDecoratorContext<T, V> | ClassAccessorDecoratorContext<T, V>
     ) {

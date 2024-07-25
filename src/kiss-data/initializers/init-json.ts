@@ -2,9 +2,9 @@
 import { assert } from "../../utils/assert.js";
 import { isConstructor } from "../../utils/is-constructor.js";
 import { Constructor, ConstructorOrFunction } from "../decorators/types.js";
-import { FIELD_METADATA, KissData } from "../kiss-data.js";
+import { FIELD_METADATA, KissSerializableData } from "../kiss-serializable-data.js";
 
-export function InitJson<T extends KissData, V>(
+export function InitJson<T extends KissSerializableData, V>(
     transform: ConstructorOrFunction<V> = (data: any) => data as V
 ) {
     return function (
@@ -14,7 +14,7 @@ export function InitJson<T extends KissData, V>(
         return function (this: T, args: V) {
             // To avoid calling transform function with undefined value,
             // initialize the field only if initial value is provided 
-            const src = this.migrated ?? this.src
+            const src = this.src
             if (context.name in src) {
                 const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                 // console.debug(`----- InitJson ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${args} from ${JSON.stringify(src?.[context.name])}`)
@@ -46,7 +46,7 @@ export function InitJson<T extends KissData, V>(
 }
 
 
-export function GetSetJson<T extends KissData, V>(
+export function GetSetJson<T extends KissSerializableData, V>(
     transform: ConstructorOrFunction<V> = (data: any) => data as V
 ) {
     return function (
@@ -57,7 +57,7 @@ export function GetSetJson<T extends KissData, V>(
             init: function (this: T, value: V): V {
                 // To avoid calling transform function with undefined value,
                 // initialize the field only if initial value is provided 
-                const src = this.migrated ?? this.src
+                const src = this.src
                 if (context.name in src) {
                     const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                     if (!fieldMeta.initialized) {
@@ -88,7 +88,7 @@ export function GetSetJson<T extends KissData, V>(
 }
 
 
-export function InitJsonArray<T extends KissData, V>(
+export function InitJsonArray<T extends KissSerializableData, V>(
     transform: ConstructorOrFunction<V> = (data: any) => data as V
 ) {
     return function (
@@ -98,7 +98,7 @@ export function InitJsonArray<T extends KissData, V>(
         return function (this: T, value: V[]) {
             // To avoid calling transform function with undefined value,
             // initialize the field only if initial value is provided 
-            const src = this.migrated ?? this.src
+            const src = this.src
             if (context.name in src) {
                 const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                 // console.debug(`----- InitJsonArray ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${value} from ${JSON.stringify(this.link[context.name])}`)
@@ -123,7 +123,7 @@ export function InitJsonArray<T extends KissData, V>(
     }
 }
 
-export function GetSetJsonArray<T extends KissData, V>(
+export function GetSetJsonArray<T extends KissSerializableData, V>(
     transform: ConstructorOrFunction<V> = (data: any) => data as V
 ) {
     return function (
@@ -134,7 +134,7 @@ export function GetSetJsonArray<T extends KissData, V>(
             init: function (this: T, value: V[]) {
                 // To avoid calling transform function with undefined value,
                 // initialize the field only if initial value is provided 
-                const src = this.migrated ?? this.src
+                const src = this.src
                 if (context.name in src) {
                     const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                     if (!fieldMeta.initialized) {
