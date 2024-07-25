@@ -16,7 +16,8 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "strictPropertyInitialization": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "importHelpers": true
   },
   "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules"],

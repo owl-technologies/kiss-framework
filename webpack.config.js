@@ -43,6 +43,8 @@ export default {
         outputModule: true,
     },
     externals: {
+        'webpack': 'webpack',
+        'webpack-bundle-analyzer': 'webpack-bundle-analyzer',
     },
     optimization: {
         minimize: true,
