@@ -27,15 +27,6 @@ export default {
         },
         modules: [ 'node_modules', path.resolve( __dirname, 'dist' ) ], // Add this line
         fallback: {
-            "crypto": false,
-            "stream": false,
-            "axios": false,
-            "fs": false,
-            "http": false,
-            "https": false,
-            "url": false,
-            "ws": false,
-            "path": false
         }
     },
     output: {
@@ -52,10 +43,6 @@ export default {
         outputModule: true,
     },
     externals: {
-        'express': 'express',
-        'axios': 'axios',
-        'webpack': 'webpack',
-        'webpack-bundle-analyzer': 'webpack-bundle-analyzer',
     },
     optimization: {
         minimize: true,
