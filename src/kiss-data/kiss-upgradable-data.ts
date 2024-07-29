@@ -1,5 +1,7 @@
 // import { version } from '../../package.json';
 import { metadata } from "../utils/reflect-metadata.js";
+import { Required } from "./decorators/required.js";
+import { InitJson } from "./initializers/init-json.js";
 import { FIELD_METADATA, KissSerializableData } from "./kiss-serializable-data.js";
 
 
@@ -25,6 +27,8 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
      * method decorated with @RegisterMigrate is called to migrate the data 
      * to the current version.
      */
+    @InitJson()
+    @Required()
     "protocol-version": number;
 
     original;
@@ -47,11 +51,15 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
                     if (!migrate) {
                         throw new Error(`metadata not defined for ${dis.constructor?.name}`)
                     } else {
-                        //migrate shallow copy the src object
                         src = migrate(src);
+                        // if upgraded, make sure protocol-version metadata is also initialized and present
+                        if (src && src['protocol-version'] !== undefined && src['protocol-version'] !== null) {
+                            dis[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
+                        }
                     }
                     return src;
                 }
+                
             }
         }
         super(src, transform)
@@ -59,12 +67,6 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
         // after transform was executed we can use "this" accessor to initialize KissUpgradableData fields
         if (transform) {
             this.original = original;
-
-            // if upgraded, make sure protocol-version field is also initialized and present
-            if (this.src && this.src['protocol-version'] !== undefined && this.src['protocol-version'] !== null) {
-                this['protocol-version'] = +this.src['protocol-version'];
-                this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
-            }
         }
 
         // if the data is not upgraded to the CURRENT_VERSION, throw an error
