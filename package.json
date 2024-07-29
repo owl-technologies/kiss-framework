@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.86",
+  "version": "1.0.87",
   "description": "Decorator based framework for data processing",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -18,8 +18,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:esm": "tsc; webpack --config webpack.config.js",
-    "test": "tsc; node ./dist/tests/allKeys.test.js",
+    "build:esm": "tsc && webpack --config webpack.config.js",
+    "test": "tsc && find ./dist/tests -name \"*.js\" -exec node {} \\;",
     "check-circular": "madge --circular --image graph.svg --extensions ts ./src"
   },
   "author": "H. Faddeev",

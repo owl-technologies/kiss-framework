@@ -34,7 +34,12 @@ export abstract class KissSerializableData<T = any> {
    */
   [FIELD_METADATA] = new Map<string | symbol, FIELD_PROPERTIES>();
 
-  constructor(public src){}
+  constructor(public src, transform?: Function) {
+    if (transform) {
+      this.src = transform.bind(this)(src)
+    }
+  }
+
 
   /**
    * Serializes the object to JSON. It uses the metadata to determine if the field 
