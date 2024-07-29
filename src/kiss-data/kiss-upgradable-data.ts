@@ -40,12 +40,12 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
             // that will transform the src before running class decorators that initialize the fields
             if (src['protocol-version'] < KissUpgradableData.CURRENT_VERSION) {
                 original = { ...src }; //Shallow copy of src
-                transform =  (src) => {
+                transform =  (dis:any, src) => {
                     // try to migrate the data to the current version
-                    const migrate = metadata.getFunction(this, MIGRATE_METADATA);
+                    const migrate = metadata.getFunction(dis, MIGRATE_METADATA);
 
                     if (!migrate) {
-                        throw new Error(`metadata not defined for ${ this.constructor?.name}`)
+                        throw new Error(`metadata not defined for ${ dis.constructor?.name}`)
                     } else {
                         //migrate shallow copy the src object
                         src = migrate({ ...src });

@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.87",
+  "version": "1.0.88",
   "description": "Decorator based framework for data processing",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",

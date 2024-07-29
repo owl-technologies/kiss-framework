@@ -36,7 +36,7 @@ export abstract class KissSerializableData<T = any> {
 
   constructor(public src, transform?: Function) {
     if (transform) {
-      this.src = transform.bind(this)(src)
+      this.src = transform(this, src)
     }
   }
 
