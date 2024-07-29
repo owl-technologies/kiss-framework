@@ -40,12 +40,12 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
             // that will transform the src before running class decorators that initialize the fields
             if (src['protocol-version'] < KissUpgradableData.CURRENT_VERSION) {
                 original = { ...src }; //Shallow copy of src
-                transform =  (dis:any, src) => {
+                transform = (dis: any, src) => {
                     // try to migrate the data to the current version
                     const migrate = metadata.getFunction(dis, MIGRATE_METADATA);
 
                     if (!migrate) {
-                        throw new Error(`metadata not defined for ${ dis.constructor?.name}`)
+                        throw new Error(`metadata not defined for ${dis.constructor?.name}`)
                     } else {
                         //migrate shallow copy the src object
                         src = migrate({ ...src });
@@ -54,13 +54,19 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
             }
         }
         super(src, transform)
-        // after transform was executed we can use this accessor to store KissUpgradableData fields
+
+        // after transform was executed we can use "this" accessor to initialize KissUpgradableData fields
         if (transform) {
             this.original = original;
-            this['protocol-version'] ??= this.src['protocol-version']
-            this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
+
+            // if upgraded, make sure protocol-version field is also initialized and present
+            if (this.src && this.src['protocol-version'] !== undefined && this.src['protocol-version'] !== null) {
+                this['protocol-version'] = +this.src['protocol-version'];
+                this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
+            }
         }
-        // if the data is not upgraded, throw an error
+
+        // if the data is not upgraded to the CURRENT_VERSION, throw an error
         if (!src || src['protocol-version'] !== KissUpgradableData.CURRENT_VERSION) {
             throw new Error(`Unsupported protocol version: ${JSON.stringify(this.original)}`);
         }
