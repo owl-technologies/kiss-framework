@@ -50,6 +50,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
                         //migrate shallow copy the src object
                         src = migrate({ ...src });
                     }
+                    return src;
                 }
             }
         }
