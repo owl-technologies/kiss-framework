@@ -48,7 +48,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
                         throw new Error(`metadata not defined for ${dis.constructor?.name}`)
                     } else {
                         //migrate shallow copy the src object
-                        src = migrate({ ...src });
+                        src = migrate(src);
                     }
                     return src;
                 }
@@ -68,7 +68,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
         }
 
         // if the data is not upgraded to the CURRENT_VERSION, throw an error
-        if (!src || src['protocol-version'] !== KissUpgradableData.CURRENT_VERSION) {
+        if (!this.src || this.src['protocol-version'] !== KissUpgradableData.CURRENT_VERSION) {
             throw new Error(`Unsupported protocol version: ${JSON.stringify(this.original)}`);
         }
     }
