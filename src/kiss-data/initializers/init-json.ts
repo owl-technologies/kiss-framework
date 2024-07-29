@@ -14,8 +14,8 @@ export function InitJson<T extends KissSerializableData, V>(
         return function (this: T, args: V) {
             // To avoid calling transform function with undefined value,
             // initialize the field only if initial value is provided 
-            const src = this.src
-            if (context.name in src) {
+
+            if (context.name in this.src) {
                 const fieldMeta = this[FIELD_METADATA].get(context.name) ?? {};
                 // console.debug(`----- InitJson ${fieldMeta.initialized ? 'accessing' : 'initializing'} field ${this['constructor']?.prototype?.constructor?.name}.${String(context.name)} = ${args} from ${JSON.stringify(src?.[context.name])}`)
                 if (!fieldMeta.initialized) {
@@ -24,7 +24,7 @@ export function InitJson<T extends KissSerializableData, V>(
                     this[FIELD_METADATA].set(context.name, fieldMeta);
 
                     // Transform the value only if it is provided
-                    const fromValue = src?.[context.name];
+                    const fromValue = this.src?.[context.name];
                     let toValue: V;
                     if (fromValue !== undefined && fromValue !== null) {
                         try {
