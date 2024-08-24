@@ -1,6 +1,6 @@
 {
   "name": "kiss-framework",
-  "version": "1.0.92",
+  "version": "1.0.98",
   "description": "Decorator based framework for data processing",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -25,16 +25,16 @@
   "author": "H. Faddeev",
   "license": "CC0 1.0 Universal",
   "devDependencies": {
-    "madge": "^7.0.0",
+    "madge": "^8.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4",
-    "webpack": "^5.93.0",
+    "webpack": "^5.94.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   },
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  "packageManager": "yarn@1.22.22"
 }

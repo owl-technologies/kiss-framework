@@ -5,16 +5,15 @@ import { InitJson } from "./initializers/init-json.js";
 import { FIELD_METADATA, KissSerializableData } from "./kiss-serializable-data.js";
 
 
-export function RegisterMigrate<This extends KissSerializableData, F extends (this: This, from: any) => any>(method: F, context: ClassMethodDecoratorContext<This, F>) {
+export const MIGRATE_METADATA = Symbol('MigrateMetadata');
+
+export function RegisterMigrate<This extends KissUpgradableData, F extends (this: This, from: any) => any>(method: F, context: ClassMethodDecoratorContext<This, F>) {
     // console.debug(`++++++ RegisterMigrate ${String(context.name)} ${method}`)
     const m = metadata.setFunction<F>(context, MIGRATE_METADATA, method);
     // return function (this: This, ...args: any) {
     //   return m.call(this, args);
     // }
 }
-
-export const MIGRATE_METADATA = Symbol('MigrateMetadata');
-
 
 export abstract class KissUpgradableData<T = any> extends KissSerializableData {
 
@@ -54,6 +53,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
                         src = migrate(src);
                         // if upgraded, make sure protocol-version metadata is also initialized and present
                         if (src && src['protocol-version'] !== undefined && src['protocol-version'] !== null) {
+                            dis["protocol-version"] = src['protocol-version'];
                             dis[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
                         }
                     }
@@ -66,6 +66,8 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
 
         // after transform was executed we can use "this" accessor to initialize KissUpgradableData fields
         if (transform) {
+            this["protocol-version"] = this.src['protocol-version'];
+            this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
             this.original = original;
         }
 
