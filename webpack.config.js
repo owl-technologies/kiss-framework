@@ -59,6 +59,13 @@ export default {
                     compress: {
                         passes: 2,
                     },
+                    mangle: {
+                        // Avoid mangling class and property names
+                        properties: {
+                            keep_quoted: true, // Only mangle unquoted properties
+                            // reserved: [],      // You can add your field names here if needed
+                        },
+                    },
                 },
             } ),
         ],

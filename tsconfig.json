@@ -17,7 +17,9 @@
     "resolveJsonModule": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "preserveConstEnums": true,
+    "preserveSymlinks": true,
   },
   "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules"],
