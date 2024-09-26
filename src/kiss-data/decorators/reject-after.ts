@@ -10,6 +10,9 @@ export function RejectAfter(timeout, message) {
       return promise.then(result => {
         clearTimeout(timer);
         return result;
+      }).catch(error => {
+        clearTimeout(timer);
+        throw error;
       });
     } as V;
   }
