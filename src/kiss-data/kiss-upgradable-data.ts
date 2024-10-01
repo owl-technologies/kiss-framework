@@ -47,18 +47,18 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
                     const migrate = metadata.getFunction(dis, MIGRATE_METADATA);
 
                     if (!migrate) {
-                        throw new Error(`metadata not defined for ${dis.constructor?.name}`)
+                        src = KissConfig.globalMigrate.apply(dis, src);
                     } else {
                         src = migrate(src);
-                        // if upgraded, make sure protocol-version metadata is also initialized and present
-                        if (src && src['protocol-version'] !== undefined && src['protocol-version'] !== null) {
-                            dis["protocol-version"] = src['protocol-version'];
-                            dis[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
-                        }
+                    }
+                    // if upgraded, make sure protocol-version metadata is also initialized and present
+                    if (src && src['protocol-version'] !== undefined && src['protocol-version'] !== null) {
+                        dis["protocol-version"] = src['protocol-version'];
+                        dis[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
                     }
                     return src;
                 }
-                
+
             }
         }
         super(src, transform)
@@ -94,8 +94,8 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
      *   }
      * }
      */
-    @RegisterMigrate
-    migrate<T>(from: T): T {
-        throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissConfig.CURRENT_VERSION} is not implemented`)
-    }
+    // @RegisterMigrate
+    abstract migrate?<T>(from: T): T //{
+    //     throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissConfig.CURRENT_VERSION} is not implemented`)
+    // }
 }

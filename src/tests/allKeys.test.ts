@@ -21,7 +21,7 @@ class Child extends Parent {
     }
 }
 
-describe('allKeys', () => {
+describe('(testing allKeys() function. It is an alternative to Object.keys() that extracts all typescript object keys)', () => {
     it('should return all keys including non-enumerable and accessors', () => {
         const obj = Object.create(
             { inherited: 'inherited' },

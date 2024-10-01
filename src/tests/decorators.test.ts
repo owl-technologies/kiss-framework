@@ -34,21 +34,21 @@ class TestPerson extends KissSerializableData {
 
 }
 
-describe('KissData', () => {
+describe('testing @Length, @InitJson, @Required and @Optional decorators', () => {
 
-    it('should work with valid object', () => {
+    it('@InitJson should initialize the object', () => {
         const p = new TestPerson(p1);
         expect(p.name).toBe('John Doe');
         expect(p.age).toBe(42);
     });
 
-    it('should work with valid object without optional field', () => {
+    it('@InitJson should only initialize required or optional field', () => {
         const p = new TestPerson(p2);
         expect(p.name).toBe('Jane Doe');
         expect(p.age).toBeUndefined();
     });
 
-    it('should detect that length is wrong', () => {
+    it('@Length should detect wrong length attribute', () => {
         try {
             new TestPerson(p3);
         } catch (e) {
@@ -56,7 +56,7 @@ describe('KissData', () => {
         }
     });
 
-    it('should detect that name field is missing', () => {
+    it('@Required should detect that field is missing', () => {
         try {
             new TestPerson(p4);
         } catch (e) {
