@@ -2,6 +2,7 @@
 import { metadata } from "../utils/reflect-metadata.js";
 import { Required } from "./decorators/required.js";
 import { InitJson } from "./initializers/init-json.js";
+import { KissConfig } from "./kiss-config.js";
 import { FIELD_METADATA, KissSerializableData } from "./kiss-serializable-data.js";
 
 
@@ -16,8 +17,6 @@ export function RegisterMigrate<This extends KissUpgradableData, F extends (this
 }
 
 export abstract class KissUpgradableData<T = any> extends KissSerializableData {
-
-    static CURRENT_VERSION = 0.01;
 
     /**  
      * This is a version of the format. It is used to determine if the 
@@ -41,7 +40,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
             }
             // if protocol-version is below, pass a transform function to the KissSerializableData
             // that will transform the src before running class decorators that initialize the fields
-            if (src['protocol-version'] < KissUpgradableData.CURRENT_VERSION) {
+            if (src['protocol-version'] < new KissConfig().CURRENT_VERSION) {
                 original = { ...src }; //Shallow copy of src
                 transform = (dis: any, src) => {
                     // try to migrate the data to the current version
@@ -72,7 +71,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
         }
 
         // if the data is not upgraded to the CURRENT_VERSION, throw an error
-        if (!this.src || this.src['protocol-version'] !== KissUpgradableData.CURRENT_VERSION) {
+        if (!this.src || this.src['protocol-version'] !== new KissConfig().CURRENT_VERSION) {
             throw new Error(`Unsupported protocol version: ${JSON.stringify(this.original)}`);
         }
     }
@@ -81,7 +80,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
      * Migrates the data from the current version to the latest version. It is executed by OplantoFormat constructor,
      * after the link is set, therefor nothing but the link should be used in this method. This method must transform
      * the data in the link to the latest version. e.g.:
-     *   @RegisterMigrate
+     * @RegisterMigrate
      * migrate (from: any) {
      *   switch (from['protocol-version']) {
      *     case undefined:
@@ -97,6 +96,6 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
      */
     @RegisterMigrate
     migrate<T>(from: T): T {
-        throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissUpgradableData.CURRENT_VERSION} is not implemented`)
+        throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${new KissConfig().CURRENT_VERSION} is not implemented`)
     }
 }

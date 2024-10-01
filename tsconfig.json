@@ -18,9 +18,10 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "importHelpers": true,
+    "rootDir": "./src"
   },
   "include": ["src/**/*", "api/**/*"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "dist"],
   "ts-node": {
     "esm": true
   }
