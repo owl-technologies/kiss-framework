@@ -10,7 +10,7 @@ export { Constructor, ConstructorOrFunction, Delta, GatewayFn, OpLink, Searchabl
 export { GetSetJson, GetSetJsonArray, InitJson, InitJsonArray } from "./kiss-data/initializers/init-json.js";
 export { KissConfig } from "./kiss-data/kiss-config.js";
 export { FIELD_METADATA, KissSerializableData } from "./kiss-data/kiss-serializable-data.js";
-export { KissUpgradableData, RegisterMigrate } from "./kiss-data/kiss-upgradable-data.js";
+export { KissUpgradableData, MIGRATE_METADATA, RegisterMigrate } from "./kiss-data/kiss-upgradable-data.js";
 export { allKeys } from "./utils/allKeys.js";
 export { assert } from "./utils/assert.js";
 export { colors } from "./utils/colors.js";
@@ -18,5 +18,4 @@ export { isClass } from "./utils/is-class.js";
 export { isConstructor } from "./utils/is-constructor.js";
 export { describe, expect, it, test } from "./utils/not-jest.js";
 export { metadata } from "./utils/reflect-metadata.js";
-
 
