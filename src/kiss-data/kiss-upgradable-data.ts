@@ -95,7 +95,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
      * }
      */
     // @RegisterMigrate
-    abstract migrate?<T>(from: T): T //{
+    // abstract migrate?<T>(from: T): T //{
     //     throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissConfig.CURRENT_VERSION} is not implemented`)
     // }
 }
