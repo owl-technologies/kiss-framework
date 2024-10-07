@@ -45,10 +45,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
                 transform = (dis: any, src) => {
                     // try to migrate the data to the current version
                     const migrate = metadata.getFunction(dis, MIGRATE_METADATA);
-
-                    if (!migrate) {
-                        src = KissConfig.globalMigrate.apply(dis, src);
-                    } else {
+                    if (migrate) {
                         src = migrate(src);
                     }
                     // if upgraded, make sure protocol-version metadata is also initialized and present
@@ -68,6 +65,13 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
             this["protocol-version"] = this.src['protocol-version'];
             this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
             this.original = original;
+        }
+
+        // If globalMigrate is defined, call it to migrate the data to the current version.
+        // Called function can besynchronous. globalMigrate() allows to update the data in 
+        // the database or other storage that requires ab asynchronous call.
+        if (KissConfig.globalMigrate && src && src['protocol-version'] < KissConfig.CURRENT_VERSION){
+            KissConfig.globalMigrate.apply(this, src);
         }
 
         // if the data is not upgraded to the CURRENT_VERSION, throw an error

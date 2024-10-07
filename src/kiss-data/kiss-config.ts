@@ -9,15 +9,15 @@ export class KissConfig {
     static CURRENT_VERSION = 0.01;
 
     /**
-     * When src['protocol-version'] < KissConfig.CURRENT_VERSION first
-     * KissUpgradablData tries to call function marked with @RegisterMigrate 
-     * decorator in the child class, if no such function exist, this globalMigrate
-     * function is called. This function should be overwritten to 
-     * handle data upgrading at a cerntral point without using @RegisterMigrate
+     * This function can be overwritten to handle asynchronous data upgrading 
+     * at a cerntral point. It is optional, if not defined, it is not called.
+     * 
+     * KissUpgradablData constructor tries to migrate data marked with @RegisterMigrate 
+     * decorator. Once/if the data is migrated, globalMigrate is called 
+     * with new this instance as argument allowing to deal with data upgrading at a central 
+     * point asyncronously.
+     * 
      * @param src The source object to migrate
      */
-    static globalMigrate(from) : any  {
-        // throw new Error(`metadata not defined for ${this.constructor?.name}`)
-        throw Error(`Migrating ${this?.constructor?.name} from ${from['protocol-version']} to ${KissConfig.CURRENT_VERSION} is not implemented`)
-    }
+    static globalMigrate: ((args)=>any) | undefined = undefined
 }
