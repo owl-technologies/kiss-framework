@@ -29,10 +29,8 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
     @Required()
     "protocol-version": number;
 
-    original;
-
     constructor(src) {
-        let original, transform;
+        let  transform;
         if (src) { // See if it is possible/necessary to migrate the data
             // try to parse protocol-version to number, convert to number only if it is there
             if (typeof src['protocol-version'] === 'string') {
@@ -41,7 +39,6 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
             // if protocol-version is below, pass a transform function to the KissSerializableData
             // that will transform the src before running class decorators that initialize the fields
             if (src['protocol-version'] < KissConfig.CURRENT_VERSION) {
-                original = { ...src }; //Shallow copy of src
                 transform = (dis: any, src) => {
                     // try to migrate the data to the current version
                     const migrate = metadata.getFunction(dis, MIGRATE_METADATA);
@@ -64,7 +61,6 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
         if (transform) {
             this["protocol-version"] = this.src['protocol-version'];
             this[FIELD_METADATA].set('protocol-version', { initialized: true, required: true });
-            this.original = original;
         }
 
         // If globalMigrate is defined, call it to migrate the data to the current version.
@@ -76,7 +72,7 @@ export abstract class KissUpgradableData<T = any> extends KissSerializableData {
 
         // if the data is not upgraded to the CURRENT_VERSION, throw an error
         if (!this.src || this.src['protocol-version'] !== KissConfig.CURRENT_VERSION) {
-            throw new Error(`Unsupported protocol version: ${JSON.stringify(this.original)}`);
+            throw new Error(`Unsupported protocol version: ${JSON.stringify(this.src)}`);
         }
     }
 
