@@ -9,12 +9,18 @@ export type OpLink<To = any, From = any> = {
     toJSON(): any;
 };
 
+export type Configuration = {
+    prefix: string,
+    method: 'POST' | 'GET',
+    authHeadersRequired: boolean,
+}
+
 export abstract class SearchableById {
-    static idPrefix: string;
+    static configuration : Configuration
 };
 
 export abstract class SearchableByName {
-    static namePrefix: string;
+    static configuration : Configuration
 };
 
 export type Constructor<T> = { new(...data: any[]): T };

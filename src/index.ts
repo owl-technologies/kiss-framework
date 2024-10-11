@@ -6,7 +6,7 @@ export { Optional } from "./kiss-data/decorators/optional.js";
 export { RejectAfter } from "./kiss-data/decorators/reject-after.js";
 export { Required } from "./kiss-data/decorators/required.js";
 export { Singleton } from "./kiss-data/decorators/singleton.js";
-export { Constructor, ConstructorOrFunction, Delta, GatewayFn, OpLink, SearchableById, SearchableByName } from "./kiss-data/decorators/types.js";
+export { Configuration, Constructor, ConstructorOrFunction, Delta, GatewayFn, OpLink, SearchableById, SearchableByName } from "./kiss-data/decorators/types.js";
 export { GetSetJson, GetSetJsonArray, InitJson, InitJsonArray } from "./kiss-data/initializers/init-json.js";
 export { KissConfig } from "./kiss-data/kiss-config.js";
 export { FIELD_METADATA, KissSerializableData } from "./kiss-data/kiss-serializable-data.js";
