@@ -1,8 +1,8 @@
 import { isConstructor } from "../../utils/is-constructor.js";
-import { ConstructorOrFunction, OpLink } from "../decorators/types.js";
+import { ConstructorOrFunction, TransformableLink } from "../decorators/types.js";
 
 
-export class JSONLink<To> implements OpLink<To, any> {
+export class JSONLink<To> implements TransformableLink<To, any> {
 
     constructor(public link : any, public transform?: ConstructorOrFunction<To>) {
         this.transform ??= (data: any) => String(data) as To;

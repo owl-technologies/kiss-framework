@@ -2,7 +2,8 @@
 
 export type PromiseReturnType<T extends (...args: any) => any> = Awaited<ReturnType<T>>;
 
-export type OpLink<To = any, From = any> = {
+export type TransformableLink<To = any, From = any> = {
+    transform?: ConstructorOrFunction<To>
     link: From;
     set(value: To): void;
     get(): To | Promise<To>; // this return type is the only difference between OpLink and ClassAccessorDecoratorResult
