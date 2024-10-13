@@ -10,26 +10,6 @@ export type TransformableLink<To = any, From = any> = {
     toJSON(): any;
 };
 
-export type IdSearchConfiguration = {
-    idPrefix: string,
-    method: 'POST' | 'GET',
-    authHeadersRequired: boolean,
-}
-
-export type NameSearchConfiguration = {
-    namePrefix: string,
-    method: 'POST' | 'GET',
-    authHeadersRequired: boolean,
-}
-
-export abstract class SearchableById {
-    static configuration : IdSearchConfiguration
-};
-
-export abstract class SearchableByName {
-    static configuration : NameSearchConfiguration
-};
-
 export type Constructor<T> = { new(...data: any[]): T };
 
 export type ConstructorOrFunction<T> = Constructor<T> | ((data: any) => T);
